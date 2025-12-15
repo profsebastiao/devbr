@@ -1,0 +1,113 @@
+{% load static wagtailuserbar %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+                {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}{% endblock %}
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+        <style>
+            /* CONFIGURAÇÕES GERAIS */
+            body { 
+                font-family: 'Roboto', sans-serif; 
+                margin: 0; 
+                padding: 0; 
+                background-color: #f9f9f9;
+                display: flex; 
+                flex-direction: column; 
+                min-height: 100vh;
+            }
+            
+            /* MENU */
+            nav { background-color: #2c3e50; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            
+            .nav-content { 
+                max-width: 95%; /* Menu largo */
+                margin: 0 auto; 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                padding: 0 20px; 
+            }
+
+            .logo { color: white; font-size: 1.5em; font-weight: bold; text-decoration: none; }
+            .menu-links a { color: #ecf0f1; text-decoration: none; margin-left: 20px; font-weight: 500; }
+            .menu-links a:hover { color: #1abc9c; }
+
+            /* --- CLASSE PARA TELA CHEIA (PADRÃO) --- */
+            .container-fluid {
+                width: 95%;        /* Ocupa 95% da tela */
+                max-width: 100%;   /* Sem limite de pixels */
+                margin-left: auto; /* Centraliza */
+                margin-right: auto;/* Centraliza */
+                padding: 20px;     
+                box-sizing: border-box;
+            }
+            /* -------------------------------------- */
+
+            /* Ajuste para imagens não estourarem a tela */
+            img { max-width: 100%; height: auto; }
+
+            main { flex: 1; width: 100%; }
+
+            footer {
+                background-color: #222;
+                color: #aaa;
+                text-align: center;
+                padding: 40px 0;
+                margin-top: 50px;
+                border-top: 5px solid #1abc9c;
+            }
+            footer p { margin: 5px 0; }
+            footer a { color: #fff; text-decoration: none; font-weight: bold; }
+        </style>
+
+        {% block extra_css %}{% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+        {% wagtailuserbar %}
+
+        <nav>
+            <div class="nav-content">
+                <a href="/" class="logo">devbr</a>
+                <div class="menu-links">
+                    <a href="/">Home</a>
+                    <a href="/sobre-min/">Sobre Min</a>
+                 
+                    <a href="/search/">🔍 Buscar</a>
+                   
+                    <a href="/form-page/"> Contato</a>
+
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer>
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <p>&copy; 2025 <strong>Sebastião.dev</strong> - Minha Jornada com Python</p>
+                <div style="margin-top: 10px;">
+                    <a href="https://github.com/">GitHub</a> • <a href="https://www.linkedin.com/in/profsebastiao/">LinkedIn</a> • <a href="#">Contato</a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    </body>
+</html>

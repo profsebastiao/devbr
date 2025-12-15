@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container-fluid" style="max-width: 800px; margin: 0 auto; padding: 60px 20px; text-align: center;">
+
+    <div style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #1abc9c;">
+        
+        <div style="font-size: 4em; color: #1abc9c; margin-bottom: 20px;">
+            ✓
+        </div>
+
+        <h1 style="color: #2c3e50; margin-top: 0;">Mensagem Enviada!</h1>
+        
+        <div style="font-size: 1.2em; color: #555; margin: 20px 0;">
+            {{ page.thank_you_text|richtext }}
+        </div>
+
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+        <a href="/" style="background-color: #2c3e50; color: white; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s;">
+            Voltar para a Home
+        </a>
+
+    </div>
+
+</div>
+{% endblock %}

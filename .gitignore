@@ -1,0 +1,19 @@
+# Arquivos de sistema e IDE
+__pycache__/
+*.py[cod]
+.vscode/
+.idea/
+.DS_Store
+
+# Ambiente Virtual
+.venv/
+venv/
+env/
+
+# Banco de dados local (Não queremos subir o SQLite, o servidor terá o dele)
+db.sqlite3
+/media/
+
+# Arquivos de ambiente locais
+.env
+local_settings.py

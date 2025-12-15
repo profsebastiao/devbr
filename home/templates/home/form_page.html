@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container-fluid" style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+    
+    <h1 style="text-align: center; color: #2c3e50;">{{ page.title }}</h1>
+    
+    {% if page.intro %}
+        <div style="margin-bottom: 30px; text-align: center; color: #666;">
+            {{ page.intro|richtext }}
+        </div>
+    {% endif %}
+
+    <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <form action="{% pageurl page %}" method="POST">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #333;">
+                        {{ field.label }}
+                    </label>
+                    
+                    <div class="form-field">
+                        {{ field }}
+                    </div>
+                    
+                    {% if field.help_text %}
+                        <small style="color: #999;">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" style="width: 100%; padding: 15px; background-color: #1abc9c; color: white; border: none; border-radius: 5px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: 0.3s;">
+                Enviar Mensagem 🚀
+            </button>
+        </form>
+    </div>
+
+</div>
+
+<style>
+    .form-field input, .form-field textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1em;
+        box-sizing: border-box; /* Garante que não estoure a largura */
+    }
+    .form-field input:focus, .form-field textarea:focus {
+        border-color: #1abc9c;
+        outline: none;
+    }
+</style>
+{% endblock %}
