@@ -6,12 +6,6 @@ from taggit.models import Tag
 from .models import BlogPage 
 
 def home(request):
-    # --- RASTREADOR (Vai aparecer no seu terminal preto) ---
-    print("--------------------------------------------------")
-    print("ALERTA: O NOVO SISTEMA DE PAGINAÇÃO FOI ACIONADO!")
-    print("--------------------------------------------------")
-    # -------------------------------------------------------
-
     # 1. Pega todos os posts
     all_posts = BlogPage.objects.live().order_by('-date')
     
