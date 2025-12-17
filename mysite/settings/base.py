@@ -24,6 +24,8 @@ BASE_DIR = PROJECT_DIR.parent
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary_storage', # <--- serv de foto
+    'cloudinary',         # <--- ser de fotos
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -180,3 +182,18 @@ WAGTAILADMIN_BASE_URL = "http://example.com"
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+
+
+# --- CONFIGURAÇÃO DO CLOUDINARY (IMAGENS NA NUVEM) ---
+import os
+
+# Só usa o Cloudinary se a chave estiver presente (ou seja, no Render)
+if os.environ.get('CLOUDINARY_URL'):
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    
+    # Configurações opcionais para otimizar imagens automaticamente
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': 'dqdo7q3x1', # Seu cloud name
+        'API_KEY': '885412997793459', # Sua API Key
+        'API_SECRET': 'B4PzsysrM-FTgcWBVtmyy5mC37Y', # Sua Secret
+    }
