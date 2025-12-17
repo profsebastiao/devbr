@@ -5,7 +5,7 @@ from django.contrib import admin
 # Importa as views (telas) do seu app 'home'
 from home import views as home_views
 # Importa especificamente a função de resetar senha (A CHAVE MESTRA)
-from home.views import magic_reset 
+#(comentado p n funcionar)from home.views import magic_reset 
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
@@ -28,7 +28,7 @@ urlpatterns = [
     
     # --- ROTA DE EMERGÊNCIA (RESETAR SENHA) ---
     # Ao acessar seu-site.com/resetar-senha-secreta/, a senha do admin vira 123456
-    path("resetar-senha-secreta/", magic_reset),
+    # (comentado, para não funcionar) path("resetar-senha-secreta/", magic_reset),
     # ------------------------------------------
 
     # --- ROTA PARA AS TAGS ---

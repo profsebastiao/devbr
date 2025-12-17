@@ -42,14 +42,14 @@ def posts_por_tag(request, tag_slug):
     return render(request, 'home/home_page.html', {'posts': posts, 'tag': tag})
 
 # --- FUNÇÃO DE EMERGÊNCIA PARA O RENDER ---
-def magic_reset(request):
+#def magic_reset(request):
     # Tenta pegar o usuário 'admin', ou cria se não existir
-    user, created = User.objects.get_or_create(username='admin', defaults={'email': 'admin@exemplo.com'})
+   # user, created = User.objects.get_or_create(username='admin', defaults={'email': 'admin@exemplo.com'})
     
     # Define a senha à força para 123456
-    user.set_password('123456')
-    user.is_superuser = True
-    user.is_staff = True
-    user.save()
+ #   user.set_password('123456')
+  #  user.is_superuser = True
+  #  user.is_staff = True
+    #user.save()
     
-    return HttpResponse("<h1>SUCESSO! 🔓</h1><p>A senha do usuário <b>admin</b> foi resetada para <b>123456</b>.<br><a href='/admin/'>Clique aqui para entrar</a></p>")
+   # return HttpResponse("<h1>SUCESSO! 🔓</h1><p>A senha do usuário <b>admin</b> foi resetada para <b>123456</b>.<br><a href='/admin/'>Clique aqui para entrar</a></p>")
