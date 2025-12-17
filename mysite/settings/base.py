@@ -179,7 +179,9 @@ WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'tx
 
 # 1. Configuração do CSS (Whitenoise)
 # Isso corrige o problema do "Site Pelado"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Modo simples (Gzip) - Mais seguro para evitar erros de CSS
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 # 2. Configuração das Imagens (Cloudinary)
 # Isso impede que as fotos sumam quando o site reinicia
