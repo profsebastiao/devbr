@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from pathlib import Path
+import os # Importante para ler variáveis do sistema
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
@@ -24,8 +25,8 @@ BASE_DIR = PROJECT_DIR.parent
 # Application definition
 
 INSTALLED_APPS = [
-    'cloudinary_storage', # <--- serv de foto
-    'cloudinary',         # <--- ser de fotos
+    'cloudinary_storage', # <--- Armazenamento de Imagens
+    'cloudinary',         # <--- Biblioteca do Cloudinary
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -52,7 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware", # <--- Serve o CSS (Importante!)
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -145,16 +146,9 @@ STATIC_URL = "/static/"
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 
-# Default storage settings
-# See https://docs.djangoproject.com/en/6.0/ref/settings/#std-setting-STORAGES
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
-}
+# --- REMOVIDO BLOCO 'STORAGES' PARA EVITAR CONFLITO ---
+# (O Django vai usar as configurações STATICFILES_STORAGE e DEFAULT_FILE_STORAGE abaixo)
+
 
 # Django sets a maximum of 1000 fields per form by default, but particularly complex page models
 # can exceed this limit within Wagtail's page editor.
@@ -178,25 +172,22 @@ WAGTAILSEARCH_BACKENDS = {
 WAGTAILADMIN_BASE_URL = "http://example.com"
 
 # Allowed file extensions for documents in the document library.
-# This can be omitted to allow all files, but note that this may present a security risk
-# if untrusted users are allowed to upload files -
-# see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
 
 
-# --- CONFIGURAÇÃO DO CLOUDINARY (IMAGENS NA NUVEM) ---
-import os
+# --- CONFIGURAÇÃO DE PRODUÇÃO (CSS e IMAGENS) ---
 
-# Só usa o Cloudinary se a chave estiver presente (ou seja, no Render)
+# 1. Configuração do CSS (Whitenoise)
+# Isso corrige o problema do "Site Pelado"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# 2. Configuração das Imagens (Cloudinary)
+# Isso impede que as fotos sumam quando o site reinicia
 if os.environ.get('CLOUDINARY_URL'):
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
     
-    # Configurações opcionais para otimizar imagens automaticamente
     CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': 'dqdo7q3x1', # Seu cloud name
-        'API_KEY': '885412997793459', # Sua API Key
-        'API_SECRET': 'B4PzsysrM-FTgcWBVtmyy5mC37Y', # Sua Secret
+        'CLOUD_NAME': 'dqdo7q3x1', 
+        'API_KEY': '885412997793459', 
+        'API_SECRET': 'B4PzsysrM-FTgcWBVtmyy5mC37Y', 
     }
-
-    # --- CORREÇÃO PARA O DJANGO 5 (ADICIONE ESTA LINHA) ---
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
