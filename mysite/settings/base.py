@@ -197,3 +197,6 @@ if os.environ.get('CLOUDINARY_URL'):
         'API_KEY': '885412997793459', # Sua API Key
         'API_SECRET': 'B4PzsysrM-FTgcWBVtmyy5mC37Y', # Sua Secret
     }
+
+    # --- CORREÇÃO PARA O DJANGO 5 (ADICIONE ESTA LINHA) ---
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
