@@ -8,11 +8,10 @@ RUN useradd wagtail
 EXPOSE 8000
 
 # Define variáveis de ambiente
-# PYTHONUNBUFFERED: Garante que os logs apareçam imediatamente no painel do Render
 ENV PYTHONUNBUFFERED=1 \
     PORT=8000
 
-# Instala pacotes do sistema necessários para Wagtail, Django e Postgres
+# Instala pacotes do sistema
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -21,8 +20,6 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     zlib1g-dev \
     libwebp-dev \
  && rm -rf /var/lib/apt/lists/*
-
-# (REMOVIDO: A instalação manual do Gunicorn antigo. Deixamos o requirements.txt cuidar disso)
 
 # Instala os requerimentos do projeto
 COPY requirements.txt /
@@ -40,11 +37,13 @@ COPY --chown=wagtail:wagtail . .
 # Troca para o usuário wagtail (segurança)
 USER wagtail
 
-# Coleta os arquivos estáticos (CSS/JS)
-# TRUQUE: Passamos uma SECRET_KEY falsa aqui só para o comando não falhar durante o build
-RUN SECRET_KEY=build-secret-key python manage.py collectstatic --noinput --clear
+# --- MUDANÇA AQUI ---
+# Comentamos esta linha antiga para ela não atrapalhar.
+# Vamos deixar o CMD lá embaixo cuidar disso com as senhas reais.
+# RUN SECRET_KEY=build-secret-key python manage.py collectstatic --noinput --clear
 
-# Comando que roda quando o site inicia
-# 1. Roda as migrações do banco
-# 2. Inicia o Gunicorn ligando no IP 0.0.0.0 (Essencial para o Render)
-CMD set -xe; python manage.py migrate --noinput; gunicorn mysite.wsgi:application --bind 0.0.0.0:8000
+# Comando Mestre que roda quando o site inicia (Runtime):
+# 1. Gera o CSS (collectstatic)
+# 2. Atualiza Banco (migrate)
+# 3. Inicia Site (gunicorn)
+CMD python manage.py collectstatic --noinput; python manage.py migrate --noinput; gunicorn mysite.wsgi:application --bind 0.0.0.0:8000
