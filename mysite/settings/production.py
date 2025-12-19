@@ -20,17 +20,16 @@ DATABASES = {
     )
 }
 
-# Configuração de E-mail (Console para não dar erro)
+# Configuração de E-mail
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-# --- A CORREÇÃO DO ADMIN VEM AQUI ---
-# Obriga o uso do modo "Simples" (Compressed) em vez do "Rigoroso" (Manifest)
-# Isso faz o CSS do Wagtail (Admin) voltar a funcionar
+# --- CORREÇÃO DEFINITIVA DO CSS ---
+# 1. Usa o modo simples do Whitenoise (Funciona sempre)
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
-# Garante os caminhos corretos
+# 2. Garante que a pasta seja A MESMA do base.py ('static')
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")  # <--- Aqui estava 'staticfiles', voltei para 'static'
 
 try:
     from .local import *
