@@ -41,7 +41,7 @@ def posts_por_tag(request, tag_slug):
 
     return render(request, 'home/home_page.html', {'posts': posts, 'tag': tag})
 
-# --- FUNÇÃO DE EMERGÊNCIA CORRIGIDA ---
+# --- FUNÇÃO PARA CRIAR O PRIMEIRO USUÁRIO (Use apenas 1 vez) ---
 def magic_reset(request):
     # Procura o usuário 'sebastiao'. Se não existir, cria ele.
     user, created = User.objects.get_or_create(username='sebastiao', defaults={'email': 'sebastiao@exemplo.com'})
@@ -52,4 +52,9 @@ def magic_reset(request):
     user.is_staff = True
     user.save()
     
-    return HttpResponse(f"<h1>RESETADO! 🔓</h1><p>A senha do usuário <b>{user.username}</b> foi resetada para <b>123456</b>.<br><a href='/admin/'>Clique aqui para entrar</a></p>")
+    if created:
+        msg = "CRIADO COM SUCESSO! 👑"
+    else:
+        msg = "SENHA RESETADA! 🔓"
+
+    return HttpResponse(f"<h1>{msg}</h1><p>Usuário: <b>sebastiao</b><br>Senha: <b>123456</b><br><br><a href='/admin/'>Clique aqui para entrar no Painel</a></p>")
